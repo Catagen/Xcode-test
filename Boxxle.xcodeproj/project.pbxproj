@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		920E80691FDE8DF8009BA1EA /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 920E80681FDE8DF8009BA1EA /* Box.swift */; };
 		92815CD01FDDA89A00EB1206 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92815CCF1FDDA89A00EB1206 /* Constants.swift */; };
 		92ED5DDC1FDD6D67001C88CB /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 92ED5DDB1FDD6D67001C88CB /* AppDelegate.swift */; };
 		92ED5DDE1FDD6D67001C88CB /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 92ED5DDD1FDD6D67001C88CB /* GameScene.sks */; };
@@ -40,6 +41,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		920E80681FDE8DF8009BA1EA /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		92815CCF1FDDA89A00EB1206 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		92ED5DD81FDD6D67001C88CB /* Boxxle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Boxxle.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		92ED5DDB1FDD6D67001C88CB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -115,6 +117,7 @@
 				92ED5DDF1FDD6D67001C88CB /* Actions.sks */,
 				92ED5DE11FDD6D67001C88CB /* GameScene.swift */,
 				92F6CB8F1FDDF12A00968039 /* Agent.swift */,
+				920E80681FDE8DF8009BA1EA /* Box.swift */,
 				92F6CB8D1FDDEF3000968039 /* Graphics.swift */,
 				92ED5DE31FDD6D67001C88CB /* GameViewController.swift */,
 				92ED5DE51FDD6D67001C88CB /* Main.storyboard */,
@@ -280,6 +283,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				92815CD01FDDA89A00EB1206 /* Constants.swift in Sources */,
+				920E80691FDE8DF8009BA1EA /* Box.swift in Sources */,
 				92F6CB8E1FDDEF3000968039 /* Graphics.swift in Sources */,
 				92ED5DE21FDD6D67001C88CB /* GameScene.swift in Sources */,
 				92F6CB901FDDF12A00968039 /* Agent.swift in Sources */,

@@ -1,64 +1,54 @@
 //
-//  Agent.swift
+//  Box.swift
 //  Boxxle
 //
-//  Created by Szymon Stypa on 2017-12-10.
+//  Created by Szymon Stypa on 2017-12-11.
 //  Copyright © 2017 Szymon Stypa. All rights reserved.
 //
 
 import SpriteKit
 import GameplayKit
 
-class Agent: SKSpriteNode {
+var boxes = [Box]()
 
+class Box: SKSpriteNode {
+    
     var currentTileNr: Int = -1
-
-    func setup(map: Array<Array<Int>>, size: CGSize) {
+    
+    func setup(map: Array<Array<Int>>, size: CGSize, tileNr: Int) {
+        let currentTile = tile.getTile(num: tileNr)
         
-        currentTileNr = map[2][0]
-        
-        tile.getTile(num: currentTileNr).contain(node: self)
-        
-        self.zPosition = zPositions.player
-        self.anchorPoint = CGPoint(x: 0, y: -0.2)
+        self.currentTileNr = tileNr
+        self.zPosition = zPositions.box
+        self.anchorPoint = CGPoint(x: 0, y: 0)
         self.size.width = size.width / CGFloat(gameConfig.yDiff)
-        self.position = CGPoint(x: tile.getTile(num: currentTileNr).x, y: tile.getTile(num: currentTileNr).y)
+        self.position = CGPoint(x: currentTile.x, y: currentTile.y)
+        
+        currentTile.contains = self
     }
-
-    // Move the agent in a direction
-    func move(direction: Int) {
+    
+    func move(direction: Int) -> Bool {
         let incr: Int
-        let img: String
-
+        
         switch direction {
         case 0:
             incr = gameConfig.xDiff
-            img = ImageNames.playerRight
         case 1:
             incr = gameConfig.yDiff
-            img = ImageNames.playerBack
         case 2:
             incr = -gameConfig.xDiff
-            img = ImageNames.playerLeft
         default:
             incr = -gameConfig.yDiff
-            img = ImageNames.playerFront
         }
-        
-        self.texture = SKTexture(imageNamed: img)
         
         // If target tile is walkable
         if tile.getTile(num: currentTileNr + incr).walkable {
             
-            // If new tile contains a box
-            if let contained = tile.getTile(num: currentTileNr + incr).contains as? Box {
-                
-                // If box at target location is not movable
-                if !contained.move(direction: direction) {
-                    return
-                }
+            // If target tile contains a box
+            if (tile.getTile(num: currentTileNr + incr).contains as? Box) != nil {
+                return false
             }
-            
+
             // Make sure current tile contains nothing
             tile.getTile(num: currentTileNr).contain(node: nil)
             
@@ -71,7 +61,10 @@ class Agent: SKSpriteNode {
             let move = SKAction.move(to: point, duration: gameConfig.moveAnimation)
             self.run(move)
             
+            return true
+            
+        } else {
+            return false
         }
     }
-
 }

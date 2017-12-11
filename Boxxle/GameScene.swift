@@ -9,23 +9,12 @@
 import SpriteKit
 import GameplayKit
 
-var tiles = [tile]()
-
-struct tile {
-    var n:Int
-    var x:CGFloat
-    var y:CGFloat
-    var type:Int
-    var walkable:Bool
-    
-    static func getTile(num: Int) -> tile {
-        return tiles[num]
-    }
-}
-
 class GameScene: SKScene {
     
-    let player = Agent(imageNamed: "char_front.png")
+    let bg = SKSpriteNode(imageNamed: ImageNames.background)
+    let player = Agent(imageNamed: ImageNames.playerFront)
+    
+    let resetButton = SKSpriteNode(imageNamed: ImageNames.resetButton)
     
     let swipeRightRec = UISwipeGestureRecognizer()
     let swipeLeftRec = UISwipeGestureRecognizer()
@@ -35,14 +24,29 @@ class GameScene: SKScene {
     override func didMove(to view: SKView) {
         
         // Map setup
-        let grphx = Graphics(scene: self)
-        grphx.loadMap(map: Maps.map1)
+        let grphx = Graphics(scene: self, map: Maps.map1)
+        grphx.loadMap()
         grphx.generateMap()
         
         // Player setup
         player.setup(map: Maps.map1, size: self.size)
         addChild(player)
         
+        
+        // Temporary bg setup
+        bg.position.x = 0
+        bg.position.y = 0
+        bg.size = CGSize(width: self.size.width, height: self.size.height)
+        bg.anchorPoint = CGPoint(x: 0, y: 0)
+        bg.zPosition = zPositions.background
+        addChild(bg)
+        
+        // Temporary reset button setup
+        resetButton.position.x = self.size.width - (resetButton.size.width * 2)
+        resetButton.position.y = resetButton.size.height
+        resetButton.anchorPoint = CGPoint(x: 0, y: 0)
+        resetButton.name = "resetButton"
+        addChild(resetButton)
         
         // Swipe recognition setup
         swipeRightRec.addTarget(self, action: #selector(GameScene.swipedRight) )
@@ -95,6 +99,21 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            let location = t.location(in: self)
+            let touchNode = atPoint(location)
+            
+            // If touch occured on reset button
+            if touchNode.name == "resetButton"{
+                if let scene = SKScene(fileNamed: "GameScene") {
+                    // Set the scale mode to scale to fit the window
+                    scene.scaleMode = .aspectFill
+                    
+                    // Present the scene
+                    self.view!.presentScene(scene)
+                }
+            }
+        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
