@@ -11,6 +11,7 @@ struct ImageNames {
 }
 
 struct Maps {
+    // Temporary struct for map loading
     static let map1 = [[55,56,57,64,65,66,68,69,70,73,74,75,77,78,79,84,85,86,87,88,92,93,94,101,102,103,104,105],[103,104,105],[55]]
 }
 

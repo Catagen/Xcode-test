@@ -29,15 +29,9 @@ class Graphics {
         self.scene.addChild(sprite)
     }
     
-    // Look through the tiles array and apply appropriate sprites for every tile (by type)
+    // Look through the tiles array and apply appropriate sprites for types 1 & 2
     func generateMap() {
         for t in tiles {
-            
-            let sprite = SKLabelNode(text: "\(String(t.n)) \n \n \(String(t.walkable))")
-            sprite.position.x = t.x
-            sprite.position.y = t.y
-            self.scene.addChild(sprite)
-            
             if t.type == 1 {
                 if !tile.getTile(num: t.n - gameConfig.yScale).walkable {
                     let bottomTile = tile.getTile(num: t.n - gameConfig.yScale)
@@ -57,7 +51,7 @@ class Graphics {
         }
     }
     
-    // Divide the scene in to tiles (using tile struct) and append evey tile to self.tiles
+    // Divide the scene in to tiles (using tile struct) and append evey tile to tiles array
     func loadMap(map: Array<Array<Int>>) {
         
         tiles.removeAll()

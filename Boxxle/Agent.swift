@@ -14,12 +14,14 @@ class Agent: SKSpriteNode {
     var currentTileNr: Int = 0
     
     func setup(map: Array<Array<Int>>, size: CGSize) {
+        
         let startTileNr = map[2][0]
         currentTileNr = startTileNr
-        self.position = CGPoint(x: tile.getTile(num: startTileNr).x, y: tile.getTile(num: startTileNr).y)
+        
+        self.zPosition = 10
         self.size.width = size.width / 9
         self.anchorPoint = CGPoint(x: 0, y: -0.2)
-        self.zPosition = 10
+        self.position = CGPoint(x: tile.getTile(num: startTileNr).x, y: tile.getTile(num: startTileNr).y)
     }
     
     // Move the agent in a direction

@@ -80,7 +80,7 @@ class GameScene: SKScene {
         player.move(direction: 3)
     }
     
-//--------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+//------------------------------------------------------------------------------------------------------------------------------
     
     func touchDown(atPoint pos : CGPoint) {
 
@@ -95,8 +95,6 @@ class GameScene: SKScene {
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch: AnyObject in touches {
-        }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
