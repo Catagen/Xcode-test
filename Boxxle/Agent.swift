@@ -13,16 +13,22 @@ class Agent: SKSpriteNode {
 
     var currentTileNr: Int = -1
 
-    func setup(map: Array<Array<Int>>, size: CGSize) {
+    func setup(map: Array<Array<Int>>, scene: GameScene) {
         
+        // Set current tile number to spawn
         currentTileNr = map[2][0]
         
-        tile.getTile(num: currentTileNr).contain(node: self)
+        // Get a reference to the spawn tile
+        let currentTile = tile.getTile(num: currentTileNr)
         
-        self.zPosition = zPositions.player
-        self.anchorPoint = CGPoint(x: 0, y: -0.2)
-        self.size.width = size.width / CGFloat(gameConfig.yDiff)
-        self.position = CGPoint(x: tile.getTile(num: currentTileNr).x, y: tile.getTile(num: currentTileNr).y)
+        currentTile.contain(node: self)
+        
+        zPosition = zPositions.player
+        anchorPoint = CGPoint(x: 0, y: -0.2)
+        position = CGPoint(x: currentTile.x, y: currentTile.y)
+        size.width = scene.size.width / CGFloat(gameConfig.yDiff)
+        
+        scene.addChild(self)
     }
 
     // Move the agent in a direction
@@ -69,7 +75,7 @@ class Agent: SKSpriteNode {
             tile.getTile(num: currentTileNr).contain(node: self)
             let point = CGPoint(x: tile.getTile(num: currentTileNr).x, y: tile.getTile(num: currentTileNr).y)
             let move = SKAction.move(to: point, duration: gameConfig.moveAnimation)
-            self.run(move)
+            run(move)
             
         }
     }

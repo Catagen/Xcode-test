@@ -40,26 +40,42 @@ class Graphics {
     
     let scene: GameScene
     let map: Array<Array<Int>>
+    let tileSize: CGSize
     
     init(scene: GameScene, map: Array<Array<Int>>) {
         self.scene = scene
         self.map = map
+        
+        let width = self.scene.size.width / CGFloat(gameConfig.yDiff)
+        let height = self.scene.size.height / CGFloat(gameConfig.yDiff * 2)
+        
+        self.tileSize = CGSize(width: width, height: height)
+        
+        self.loadMap()
     }
     
     // Generate and configure SKSpriteNode from image name and position
-    func generateSprite(ImageName: String, x:CGFloat, y:CGFloat, z: CGFloat = 0) {
+    func generateSprite(ImageName: String, x:CGFloat, y:CGFloat, z: CGFloat = 0, size: CGSize? = nil) {
         let sprite = SKSpriteNode(imageNamed: ImageName)
         
         sprite.zPosition = z
         sprite.position = CGPoint(x: x, y: y)
         sprite.anchorPoint = CGPoint(x: 0, y:0)
-        sprite.size = CGSize(width: self.scene.size.width / CGFloat(gameConfig.yDiff), height: self.scene.size.height / CGFloat(gameConfig.yDiff * 2))
+        
+        if let s = size {
+            sprite.size = s
+        } else {
+            sprite.size = tileSize
+        }
         
         self.scene.addChild(sprite)
     }
     
     // Look through the tiles array and apply appropriate sprites for types 1 & 2
     func generateMap() {
+        
+        // Load the background
+        generateSprite(ImageName: ImageNames.background, x: 0, y: 0, z: zPositions.background, size: scene.size)
         
         // Add tile sprites
         for t in tiles {
@@ -82,20 +98,20 @@ class Graphics {
             
             if map[3].contains(t.n) {
                 let box = Box(imageNamed: ImageNames.box)
-                box.setup(map: self.map, size: self.scene.size, tileNr: t.n)
+                box.setup(map: self.map, scene: self.scene, tileNr: t.n)
                 tile.getTile(num: t.n).contain(node: box)
-                self.scene.addChild(box)
+                scene.addChild(box)
             }
         }
     }
     
-    // Divide the scene in to tiles (using tile struct) and append evey tile to tiles array
+    // Divide the scene in to tiles and append evey tile to tiles array
     func loadMap() {
         
         tiles.removeAll()
         
-        for y in stride(from: 0, to: self.scene.size.height, by: self.scene.size.height / CGFloat(gameConfig.yDiff * 2)) {
-            for x in stride(from: 0, to: self.scene.size.width, by: self.scene.size.width / CGFloat(gameConfig.yDiff)) {
+        for y in stride(from: 0, to: scene.size.height, by: tileSize.height) {
+            for x in stride(from: 0, to: self.scene.size.width, by: tileSize.width) {
                 let n = tiles.count
                 
                 if map[0].contains(n) {
@@ -112,12 +128,18 @@ class Graphics {
         
     }
     
+    // Debug function showing tile numbers
     func tileDubug() {
         for t in tiles {
             let label = SKLabelNode(text: String(t.n))
+            
+            label.horizontalAlignmentMode = .center
+            label.verticalAlignmentMode = .center
+            
             label.position = CGPoint(x: t.x, y: t.y)
             label.zPosition = 100
-            self.scene.addChild(label)
+            
+            scene.addChild(label)
         }
     }
 }

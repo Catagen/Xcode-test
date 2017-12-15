@@ -25,21 +25,10 @@ class GameScene: SKScene {
         
         // Map setup
         let grphx = Graphics(scene: self, map: Maps.map1)
-        grphx.loadMap()
         grphx.generateMap()
         
         // Player setup
-        player.setup(map: Maps.map1, size: self.size)
-        addChild(player)
-        
-        
-        // Temporary bg setup
-        bg.position.x = 0
-        bg.position.y = 0
-        bg.size = CGSize(width: self.size.width, height: self.size.height)
-        bg.anchorPoint = CGPoint(x: 0, y: 0)
-        bg.zPosition = zPositions.background
-        addChild(bg)
+        player.setup(map: Maps.map1, scene: self)
         
         // Temporary reset button setup
         resetButton.position.x = self.size.width - (resetButton.size.width * 2)
@@ -84,6 +73,16 @@ class GameScene: SKScene {
         player.move(direction: 3)
     }
     
+    func loadScene(fileNamed: String) {
+        if let scene = SKScene(fileNamed: fileNamed) {
+            // Set the scale mode to scale to fit the window
+            scene.scaleMode = .aspectFill
+            
+            // Present the scene
+            self.view!.presentScene(scene)
+        }
+    }
+    
 //------------------------------------------------------------------------------------------------------------------------------
     
     func touchDown(atPoint pos : CGPoint) {
@@ -95,7 +94,6 @@ class GameScene: SKScene {
     }
     
     func touchUp(atPoint pos : CGPoint) {
-
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -105,13 +103,7 @@ class GameScene: SKScene {
             
             // If touch occured on reset button
             if touchNode.name == "resetButton"{
-                if let scene = SKScene(fileNamed: "GameScene") {
-                    // Set the scale mode to scale to fit the window
-                    scene.scaleMode = .aspectFill
-                    
-                    // Present the scene
-                    self.view!.presentScene(scene)
-                }
+                loadScene(fileNamed: "GameScene")
             }
         }
     }
